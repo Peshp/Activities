@@ -1,5 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import MenuList  from "@mui/material/MenuList";
+import MenuItem from "@mui/material/MenuItem";
+import StadiumIcon from '@mui/icons-material/Stadium';
+
 
 function Activities(){
     const [activities, setActivities] = useState([]);
@@ -8,22 +12,21 @@ function Activities(){
         axios.get('http://localhost:5004/api/Activity')
             .then(response => {
                 setActivities(response.data);
-                console.log(activities);
             })
     }, []);
 
     return (
         <div>
             <h1>Activities</h1>
-            <List>
+            <MenuList>
                 {activities.map((activity: any) => {
                     return (
-                        <li key={activity.id}>
+                        <MenuItem key={activity.id}>
                             {activity.name}
-                        </li>
+                        </MenuItem>
                     );
                 })}
-            </List>
+            </MenuList>
         </div>
     );
 }
