@@ -1,4 +1,5 @@
 using API.Controllers;
+using Application;
 using Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("CorsPolicy", policy =>
@@ -21,6 +23,8 @@ internal class Program
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
             });
         });
+
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(List.Handler).Assembly));
 
         var app = builder.Build();
 
