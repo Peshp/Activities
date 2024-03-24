@@ -1,5 +1,7 @@
-﻿using Data;
+﻿using Application;
+using Data;
 using Data.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,23 +9,42 @@ namespace API.Controllers
 {
     public class ActivityController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public ActivityController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Activity>>> All()
         {
-            return await _context.Activities.ToListAsync();
+            return await Mediator.Send(new List.Query());
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Activity>> GetById(Guid Id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Activity>> GetById(Guid id)
         {
-            return await _context.Activities.FindAsync(Id);
+            return await Mediator.Send(new Details.Query(id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add(Activity activity)
+        {
+            await Mediator.Send(new Create.Query(activity));
+
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Edit(Activity activity, Guid id)
+        {
+            activity.Id = id;
+
+            await Mediator.Send(new Edit.Query(activity));
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Remove(Guid id)
+        {
+            await Mediator.Send(new Delete.Query(id));
+
+            return Ok();
         }
     }
 }
