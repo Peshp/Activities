@@ -1,7 +1,5 @@
 using API.Controllers;
-using Application;
-using Data;
-using Microsoft.EntityFrameworkCore;
+using API.Extensions;
 
 internal class Program
 {
@@ -9,22 +7,8 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
-
         builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("CorsPolicy", policy =>
-            {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
-            });
-        });
-
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(List.Handler).Assembly));
+        builder.Services.AddApplicationServices(builder.Configuration);
 
         var app = builder.Build();
 
