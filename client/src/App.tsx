@@ -1,5 +1,4 @@
-import './App.css'
-import Activities from './components/Activities'
+import Activities from './app/layoult/Activities'
 
 function App() {
   return (
