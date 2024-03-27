@@ -18,8 +18,8 @@ function Activities(){
     return (
         <div>
             <NavBar />
+            <MenuList className="align-center">
             <h1 >Activities</h1>
-            <MenuList>
                 {activities.map((activity: any) => {
                     return (
                         <MenuItem key={activity.id}>
