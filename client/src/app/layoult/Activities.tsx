@@ -4,6 +4,8 @@ import MenuList  from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import { Activity } from "../models/Activity";
 import NavBar from "../Navbar/NavBar";
+import { Grid } from "@mui/material";
+import ActivityList from "../../features/features/activities/dashboard/ActivityList";
 
 function Activities(){
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -16,19 +18,14 @@ function Activities(){
     }, []);
 
     return (
-        <div>
-            <NavBar />
-            <MenuList className="align-center">
-            <h1 >Activities</h1>
-                {activities.map((activity: any) => {
-                    return (
-                        <MenuItem key={activity.id}>
-                            {activity.name}
-                        </MenuItem>
-                    );
-                })}
-            </MenuList>
-        </div>
+        <>
+         <NavBar></NavBar>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <ActivityList activities={activities} />
+                </Grid>
+            </Grid>
+        </>    
     );
 }
 
