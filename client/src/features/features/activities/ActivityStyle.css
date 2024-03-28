@@ -1,0 +1,14 @@
+
+
+.card-container {
+    background-color: #f0f0f0; 
+    width: 36%;
+}
+  
+.button-container {
+  display: block;
+  background-color: lightblue;
+  width: 12%;
+  border-radius: 10px;
+  align-content: end;
+}
