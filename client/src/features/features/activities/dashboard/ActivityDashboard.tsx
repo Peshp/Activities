@@ -4,6 +4,7 @@ import ActivityList from "./ActivityList";
 import { Grid } from "semantic-ui-react";
 import { Activity } from "../../../../app/models/Activity";
 import ActivityDetails from "../details/ActivityDetails";
+import ActivityForm from "../form/ActivityForm";
 
 function Activities() {
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -23,6 +24,7 @@ function Activities() {
             <Grid.Column width='6'>
                 {activities[0] &&
                 <ActivityDetails activity={activities[0]} />}
+                <ActivityForm />
             </Grid.Column>
         </Grid> 
     );
