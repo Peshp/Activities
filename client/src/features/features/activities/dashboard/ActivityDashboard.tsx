@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ActivityList from "./ActivityList";
 import { Grid } from "semantic-ui-react";
 import { Activity } from "../../../../app/models/Activity";
+import ActivityDetails from "../details/ActivityDetails";
 
 function Activities() {
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -18,6 +19,10 @@ function Activities() {
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList activities={activities}/>
+            </Grid.Column>
+            <Grid.Column width='6'>
+                {activities[0] &&
+                <ActivityDetails activity={activities[0]} />}
             </Grid.Column>
         </Grid> 
     );
