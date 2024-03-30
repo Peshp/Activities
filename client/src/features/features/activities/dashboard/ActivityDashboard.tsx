@@ -45,12 +45,13 @@ function Activities() {
                 <ActivityList activities={activities} selectedActivity={handleSelectActivity} />
             </Grid.Column>
             <Grid.Column width={6}>
-                {selectedActivity && <ActivityDetails
+                {selectedActivity && !editMode &&
+                    <ActivityDetails
                     activity={selectedActivity}
                     cancelSelectActivity={handleCancelSelectActivity}
                     openForm={handleFormOpen} />}
                 {editMode &&
-                    <ActivityForm closeForm={handleFormClose} activity={selectedActivity} />}
+                <ActivityForm closeForm={handleFormClose} activity={selectedActivity} />}
             </Grid.Column>
         </Grid>
         </>
