@@ -7,7 +7,6 @@ import { Container } from 'semantic-ui-react';
 function App() {
   return (
     <>
-      <NavBar />
       <Container style={{ marginTop: '7em' }}> 
         <ActivityDashboard />
       </Container>
