@@ -37,6 +37,15 @@ function Activities() {
         setEditMode(false);
     }
 
+    function handleCreateOrEditActivity(activity: Activity) {
+        activity.id
+            ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
+            : setActivities([...activities, activity]);
+        
+        setEditMode(false);
+        setSelectedActivity(activity);
+    }
+
     return (
         <><
         NavBar openForm={handleFormOpen} />
@@ -51,7 +60,7 @@ function Activities() {
                     cancelSelectActivity={handleCancelSelectActivity}
                     openForm={handleFormOpen} />}
                 {editMode &&
-                <ActivityForm closeForm={handleFormClose} activity={selectedActivity} />}
+                <ActivityForm closeForm={handleFormClose} activity={selectedActivity} createOrEdit={handleCreateOrEditActivity} />}
             </Grid.Column>
         </Grid>
         </>
