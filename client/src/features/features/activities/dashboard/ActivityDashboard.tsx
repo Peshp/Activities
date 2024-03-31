@@ -6,6 +6,7 @@ import { Activity } from "../../../../app/models/Activity";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
 import NavBar from "../../../../app/Navbar/NavBar";
+import {v4 as uuid} from 'uuid';
 
 function Activities() {
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -40,7 +41,7 @@ function Activities() {
     function handleCreateOrEditActivity(activity: Activity) {
         activity.id
             ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
-            : setActivities([...activities, activity]);
+            : setActivities([...activities, {...activity, id: uuid()}]);
         
         setEditMode(false);
         setSelectedActivity(activity);
