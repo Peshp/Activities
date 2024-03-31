@@ -6,9 +6,10 @@ interface Props{
     activities: Activity[];
     sekectedActivity: Activity | undefined;
     selectedActivity: (id: string) => void;
+    deleteActivity: (id: string) => void;
 }
 
-function ActivityList({ activities, selectedActivity }: Props){
+function ActivityList({ activities, selectedActivity, deleteActivity }: Props){
     return (
         <Segment>
             <Item.Group divided>
@@ -23,6 +24,7 @@ function ActivityList({ activities, selectedActivity }: Props){
                             </Item.Description>
                             <Item.Extra>
                                 <Button onClick={() => selectedActivity(activity.id)} floated="right" content='View' color="blue" />
+                                <Button onClick={() => deleteActivity(activity.id)} floated="right" content='Delete' color="red" />
                                 <Label basic content={activity.category} />
                             </Item.Extra>
                         </Item.Content>
