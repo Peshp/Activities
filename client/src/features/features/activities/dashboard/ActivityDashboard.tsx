@@ -47,12 +47,18 @@ function Activities() {
         setSelectedActivity(activity);
     }
 
+    function handleDeleteActivity(id: string) {
+        setActivities([...activities.filter(x => x.id !== id)]);
+    }
+
     return (
         <><
         NavBar openForm={handleFormOpen} />
         <Grid>
             <Grid.Column width={10}>
-                <ActivityList activities={activities} selectedActivity={handleSelectActivity} />
+                <ActivityList activities={activities} 
+                selectedActivity={handleSelectActivity} 
+                deleteActivity={handleDeleteActivity} />
             </Grid.Column>
             <Grid.Column width={6}>
                 {selectedActivity && !editMode &&
