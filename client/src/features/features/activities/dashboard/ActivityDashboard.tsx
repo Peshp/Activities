@@ -7,6 +7,7 @@ import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
 import NavBar from "../../../../app/Navbar/NavBar";
 import {v4 as uuid} from 'uuid';
+import agent from "../../../../app/api/agent";
 
 function Activities() {
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -14,11 +15,10 @@ function Activities() {
     const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
-        axios.get<Activity[]>('http://localhost:5004/api/Activity')
-            .then(response => {
-                setActivities(response.data);
-            })
-    }, []); 
+        agent.Activities.list()
+            .then(Response)
+    }, []);
+    
 
     function handleSelectActivity(id: string) {
         const selected = activities.find(x => x.id === id);
