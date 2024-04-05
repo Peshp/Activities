@@ -24,7 +24,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(Activity activity)
         {
-            await Mediator.Send(new Create.Query(activity));
+            await Mediator.Send(new Create.Command(activity));
 
             return Ok();
         }
@@ -34,7 +34,7 @@ namespace API.Controllers
         {
             activity.Id = id;
 
-            await Mediator.Send(new Edit.Query(activity));
+            await Mediator.Send(new Edit.Command(activity));
 
             return Ok();
         }
