@@ -15,20 +15,25 @@ function Activities() {
     const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        agent.Activities.list()
-            .then(response => {
-                let activities: Activity[] = [];
-                response.forEach(activity => {
-                    activity.date = activity.date.split('T')[0];
-                    activities.push(activity);
-                });
-                setActivities(activities);
+        async function fetchActivities() {
+            try {
+                const response = await agent.Activities.list();
+                const formattedActivities = response.map(activity => ({
+                    ...activity,
+                    date: activity.date.split('T')[0] // Format date
+                }));
+                setActivities(formattedActivities);
                 setLoading(false);
-            })
+            } catch (error) {
+                console.error('Error fetching activities:', error);
+                setLoading(false);
+            }
+        }
+        fetchActivities();
     }, []);
-    
 
     function handleSelectActivity(id: string) {
         const selected = activities.find(x => x.id === id);
@@ -48,40 +53,56 @@ function Activities() {
         setEditMode(false);
     }
 
-    function handleCreateOrEditActivity(activity: Activity) {
-        activity.id
-            ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
-            : setActivities([...activities, {...activity, id: uuid()}]);
-        
-        setEditMode(false);
+    async function handleCreateOrEditActivity(activity: Activity) {
+        setSubmitting(true);
+        if (activity.id) {
+            await agent.Activities.update(activity);
+            setActivities([...activities.filter(x => x.id !== activity.id), activity]);
+            setSelectedActivity(activity);
+        } else {
+            activity.id = uuid();
+            await agent.Activities.create(activity);
+            setActivities([...activities, activity]);
+        }
         setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
     }
 
-    function handleDeleteActivity(id: string) {
+    async function handleDeleteActivity(id: string) {
+        await agent.Activities.delete(id);
         setActivities([...activities.filter(x => x.id !== id)]);
     }
 
-    if (loading) return <Loading content='Loading app' />
+    if (loading) return <Loading content='Loading app' />;
 
     return (
-        <><
-        NavBar openForm={handleFormOpen} />
-        <Grid>
-            <Grid.Column width={10}>
-                <ActivityList activities={activities} 
-                selectedActivity={handleSelectActivity} 
-                deleteActivity={handleDeleteActivity} />
-            </Grid.Column>
-            <Grid.Column width={6}>
-                {selectedActivity && !editMode &&
-                    <ActivityDetails
-                    activity={selectedActivity}
-                    cancelSelectActivity={handleCancelSelectActivity}
-                    openForm={handleFormOpen} />}
-                {editMode &&
-                <ActivityForm closeForm={handleFormClose} activity={selectedActivity} createOrEdit={handleCreateOrEditActivity} />}
-            </Grid.Column>
-        </Grid>
+        <>
+            <NavBar openForm={handleFormOpen} />
+            <Grid>
+                <Grid.Column width={10}>
+                    <ActivityList
+                        activities={activities}
+                        selectedActivity={handleSelectActivity}
+                        deleteActivity={handleDeleteActivity}
+                    />
+                </Grid.Column>
+                <Grid.Column width={6}>
+                    {selectedActivity && !editMode &&
+                        <ActivityDetails
+                            activity={selectedActivity}
+                            cancelSelectActivity={handleCancelSelectActivity}
+                            openForm={handleFormOpen}
+                        />}
+                    {editMode &&
+                        <ActivityForm
+                            closeForm={handleFormClose}
+                            activity={selectedActivity}
+                            createOrEdit={handleCreateOrEditActivity}
+                            submitting={submitting}
+                        />}
+                </Grid.Column>
+            </Grid>
         </>
     );
 }
