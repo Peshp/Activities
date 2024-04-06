@@ -70,8 +70,10 @@ function Activities() {
     }
 
     async function handleDeleteActivity(id: string) {
+        setSubmitting(true);
         await agent.Activities.delete(id);
         setActivities([...activities.filter(x => x.id !== id)]);
+        setSubmitting(false);
     }
 
     if (loading) return <Loading content='Loading app' />;
@@ -85,6 +87,7 @@ function Activities() {
                         activities={activities}
                         selectedActivity={handleSelectActivity}
                         deleteActivity={handleDeleteActivity}
+                        submitting={submitting}
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
