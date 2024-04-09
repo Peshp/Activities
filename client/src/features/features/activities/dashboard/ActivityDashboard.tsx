@@ -9,8 +9,10 @@ import NavBar from "../../../../app/Navbar/NavBar";
 import {v4 as uuid} from 'uuid';
 import agent from "../../../../app/api/agent";
 import Loading from "../../../../app/layoult/Loading";
+import { useStore } from "../../../../app/stores/store";
 
 function Activities() {
+    const ActivityStore = useStore();
     const [activities, setActivities] = useState<Activity[]>([]);
     const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
     const [editMode, setEditMode] = useState(false);
@@ -81,6 +83,7 @@ function Activities() {
     return (
         <>
             <NavBar openForm={handleFormOpen} />
+            <h2>{ActivityStore.name}</h2>
             <Grid>
                 <Grid.Column width={10}>
                     <ActivityList
