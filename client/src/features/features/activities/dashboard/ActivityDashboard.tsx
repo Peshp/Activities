@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Grid } from "semantic-ui-react";
+import { Button, Grid } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { Activity } from "../../../../app/models/Activity";
 import ActivityDetails from "../details/ActivityDetails";
@@ -10,6 +10,7 @@ import {v4 as uuid} from 'uuid';
 import agent from "../../../../app/api/agent";
 import Loading from "../../../../app/layoult/Loading";
 import { useStore } from "../../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
 function Activities() {
     const ActivityStore = useStore();
@@ -82,8 +83,9 @@ function Activities() {
 
     return (
         <>
-            <NavBar openForm={handleFormOpen} />
+            <NavBar openForm={handleFormOpen} />    
             <h2>{ActivityStore.name}</h2>
+            <Button content="Add exlamation!" onClick={ActivityStore.setName}/>
             <Grid>
                 <Grid.Column width={10}>
                     <ActivityList
@@ -113,4 +115,4 @@ function Activities() {
     );
 }
 
-export default Activities;
+export default observer(Activities);
