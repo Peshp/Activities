@@ -3,7 +3,6 @@ import { Grid } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
-import NavBar from "../../../../app/Navbar/NavBar";
 import Loading from "../../../../app/layoult/Loading";
 import { useStore } from "../../../../app/stores/store";
 import { observer } from "mobx-react-lite";
@@ -20,8 +19,7 @@ function Activities() {
     const {selectedActivity, editMode} = activityStore.activityStore;
 
     return (
-        <>
-            <NavBar/>    
+        <> 
             <Grid>
                 <Grid.Column width={10}>
                     <ActivityList/>
