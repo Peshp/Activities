@@ -33,6 +33,7 @@ class ActivityStore{
 
         if (activity) {
             this.selectedActivity = activity;
+            return activity;
         } else {
             this.setLoadingInitial(true);
             try {
