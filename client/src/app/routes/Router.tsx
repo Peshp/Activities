@@ -25,6 +25,10 @@ const routes: RouteObject[] = [
         {
             path: "/activities/:id",
             element: <ActivityDetails />
+        },
+        {
+          path: "/manage/:id",
+          element: <ActivityForm />
         }
       ]
     }
