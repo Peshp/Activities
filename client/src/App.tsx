@@ -1,18 +1,26 @@
 import 'semantic-ui-css/semantic.min.css';
-import './app/layoult/styles.css';
 import { Container } from 'semantic-ui-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import NavBar from './app/Navbar/NavBar';
+import { Home } from '@mui/icons-material';
+
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
-      <NavBar />
-      <Container style={{ marginTop: '7em' }}> 
-        <Outlet />
-      </Container>
+      {location.pathname === '/' ? <Home /> : (
+        <>
+          <NavBar />
+          <Container style={{ marginTop: '7em' }}> 
+            <Outlet />
+          </Container>
+        </>
+      )}     
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
