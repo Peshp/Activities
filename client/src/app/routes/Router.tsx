@@ -11,16 +11,12 @@ const routes: RouteObject[] = [
       element: <App />,
       children: [
         {
-          path: "/",
-          element: <HomePage />
-        },
-        {
           path: "/activities",
           element: <ActivityDashboard />
         },
         {
           path: "/createActivity",
-          element: <ActivityForm />
+          element: <ActivityForm key='create' />
         },
         {
             path: "/activities/:id",
@@ -28,7 +24,7 @@ const routes: RouteObject[] = [
         },
         {
           path: "/manage/:id",
-          element: <ActivityForm />
+          element: <ActivityForm key='manage'/>
         }
       ]
     }
