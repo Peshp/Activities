@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 
 function Activities() {
     const activityStore = useStore();
+    const loadActivity = activityStore
 
     useEffect(() => {
         activityStore.activityStore.loadActivity();
