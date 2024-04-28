@@ -66,6 +66,16 @@ class ActivityStore{
         this.loadingInitial = state;
     }
 
+    get groupedActivities() {
+        return Object.entries(
+            this.activities.reduce((activities, activity) => {
+                const date = activity.date;
+                activities[date] = activities[date] ? [...activities[date], activity] : [activity];
+                return activities;
+            }, {} as {[key: string]: Activity[]})
+        )
+    }
+
     createActivity = async (activity: Activity) => {
         this.loading = true;
         activity.id = uuid();
